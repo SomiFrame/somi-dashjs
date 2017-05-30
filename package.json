@@ -1,0 +1,42 @@
+{
+  "name": "somi-dashjs",
+  "version": "3.0.5",
+  "description": "a simple one track and onDemand video dash player",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel ./src --presets babel-preset-es2015 --out-dir ./dist/",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "[dash",
+    "mediasource",
+    "extension",
+    "MP4Box",
+    "onDemand",
+    "single",
+    "track]"
+  ],
+  "author": "somi-frame",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
+    "codem-isoboxer": "^0.3.3",
+    "event-stream": "^3.3.4",
+    "express": "^4.15.3",
+    "glob": "^7.1.2",
+    "gulp": "^3.9.1",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=5.0.0"
+  },
+  "dependencies": {
+    "codem-isoboxer": "^0.3.3"
+  },
+  "main": "./dist/MediaSourceE.js",
+  "bin": {}
+}
