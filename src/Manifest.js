@@ -11,7 +11,6 @@ export default class Manifest {
      * @param indexRange
      */
     constructor(selectorString, url, mimeType, initRange, indexRange) {
-        console.log(selectorString);
         this.videoDom = document.querySelector(selectorString);
         this.SegmentUrl = url;
         this.VideoMimeType = mimeType;

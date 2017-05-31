@@ -1329,7 +1329,6 @@ var Manifest =
 function Manifest(selectorString, url, mimeType, initRange, indexRange) {
     _classCallCheck(this, Manifest);
 
-    console.log(selectorString);
     this.videoDom = document.querySelector(selectorString);
     this.SegmentUrl = url;
     this.VideoMimeType = mimeType;
@@ -1389,7 +1388,6 @@ var MediaSourceE = function () {
         this.manifest.videoDom.src = this.getUrlFromMSE();
         this.tID = null;
         this.addVideoEvent();
-        console.log(this);
     }
 
     _createClass(MediaSourceE, [{
@@ -1414,12 +1412,8 @@ var MediaSourceE = function () {
     }, {
         key: 'onSourceOpen',
         value: function onSourceOpen() {
-            var _this = this;
-
             this.sourceBuffer = this.mediasource.addSourceBuffer(this.manifest.VideoMimeType);
-            this.loadInitialData().then(function () {
-                _this.loadSIDXData();
-            });
+            this.loadInitialData(this.loadSIDXData);
         }
     }, {
         key: 'onUpdateEnd',
@@ -1433,18 +1427,14 @@ var MediaSourceE = function () {
         }
     }, {
         key: 'onUpdate',
-        value: function onUpdate() {
-            // console.log('sb-update')
-        }
+        value: function onUpdate() {}
     }, {
         key: 'onUpdateStart',
-        value: function onUpdateStart() {
-            // console.log('sb-updateStart')
-        }
+        value: function onUpdateStart() {}
     }, {
         key: 'loadInitialData',
-        value: function loadInitialData() {
-            var _this2 = this;
+        value: function loadInitialData(callBack) {
+            var _this = this;
 
             var url = this.manifest.SegmentUrl;
             var option = {
@@ -1454,14 +1444,15 @@ var MediaSourceE = function () {
                 }
             };
             var cb = function cb(data) {
-                _this2.sourceBuffer.appendBuffer(new Uint8Array(data));
+                _this.sourceBuffer.appendBuffer(new Uint8Array(data));
+                callBack.call(_this);
             };
             return this.fetchData(url, option, cb);
         }
     }, {
         key: 'loadSIDXData',
         value: function loadSIDXData() {
-            var _this3 = this;
+            var _this2 = this;
 
             var url = this.manifest.SegmentUrl;
             var option = {
@@ -1471,14 +1462,14 @@ var MediaSourceE = function () {
                 }
             };
             var cb = function cb(data) {
-                _this3.ISOFile = _codemIsoboxer2.default.parseBuffer(data);
-                _this3.bufferController = new _BufferController2.default(_codemIsoboxer2.default.parseBuffer(data));
-                _this3.sourceBuffer.appendBuffer(new Uint8Array(data));
-                _this3.sourceBuffer.addEventListener('updateend', _this3.onUpdateEnd.bind(_this3));
-                _this3.sourceBuffer.addEventListener('update', _this3.onUpdate.bind(_this3));
-                _this3.sourceBuffer.addEventListener('updatestart', _this3.onUpdateStart.bind(_this3));
-                _this3.manifest.videoDom.play();
-                _this3.loadCurrentSegmentData(0);
+                _this2.ISOFile = _codemIsoboxer2.default.parseBuffer(data);
+                _this2.bufferController = new _BufferController2.default(_codemIsoboxer2.default.parseBuffer(data));
+                _this2.sourceBuffer.appendBuffer(new Uint8Array(data));
+                _this2.sourceBuffer.addEventListener('updateend', _this2.onUpdateEnd.bind(_this2));
+                _this2.sourceBuffer.addEventListener('update', _this2.onUpdate.bind(_this2));
+                _this2.sourceBuffer.addEventListener('updatestart', _this2.onUpdateStart.bind(_this2));
+                _this2.manifest.videoDom.play();
+                _this2.loadCurrentSegmentData(0);
             };
             this.fetchData(url, option, cb);
         }
@@ -1536,7 +1527,7 @@ var MediaSourceE = function () {
     }, {
         key: 'loadSegmentDataFromNet',
         value: function loadSegmentDataFromNet(index) {
-            var _this4 = this;
+            var _this3 = this;
 
             var loadIndex = index;
             var url = this.manifest.SegmentUrl;
@@ -1548,20 +1539,20 @@ var MediaSourceE = function () {
                 }
             };
             var cb = function cb(data) {
-                _this4.bufferCache.pushSegment(_this4.sourceBuffer, {
+                _this3.bufferCache.pushSegment(_this3.sourceBuffer, {
                     index: loadIndex,
                     segmentArrayBuffer: data
                 });
-                _this4.bufferController.LastLoadedSegmentIndex = loadIndex;
-                _this4.bufferController.NextSegmentIndex = loadIndex + 1;
-                _this4.bufferController.LoadingSegment = false;
-                if (_this4.bufferController.QueueLoadEvent.length) {
-                    var _index = _this4.bufferController.QueueLoadEvent.shift();
-                    _this4.loadCurrentSegmentData(_index);
+                _this3.bufferController.LastLoadedSegmentIndex = loadIndex;
+                _this3.bufferController.NextSegmentIndex = loadIndex + 1;
+                _this3.bufferController.LoadingSegment = false;
+                if (_this3.bufferController.QueueLoadEvent.length) {
+                    var _index = _this3.bufferController.QueueLoadEvent.shift();
+                    _this3.loadCurrentSegmentData(_index);
                 }
-                if (_this4.detectivePreloadOrNot()) {
-                    var NextIndex = _this4.bufferController.NextSegmentIndex;
-                    _this4.loadNextSegmentData(NextIndex);
+                if (_this3.detectivePreloadOrNot()) {
+                    var NextIndex = _this3.bufferController.NextSegmentIndex;
+                    _this3.loadNextSegmentData(NextIndex);
                 }
             };
             this.bufferController.LoadingSegment = true;
@@ -1578,11 +1569,26 @@ var MediaSourceE = function () {
     }, {
         key: 'fetchData',
         value: function fetchData(url, option, cb) {
-            return fetch(url, option).then(function (data) {
-                return data.arrayBuffer();
-            }).then(function (data) {
-                cb(data);
-            });
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function (e) {
+                var el = e.target || e.srcElement;
+                cb(el.response);
+            };
+            xhr.onerror = function (e) {
+                console.log(e);
+            };
+            xhr.open(option.method, url);
+            xhr.responseType = "arraybuffer";
+            xhr.setRequestHeader("Range", option.headers.Range);
+            xhr.send();
+            // 由于ie11不支持fetch和promise特性 所以弃用 fetch 和 promise
+            // return fetch(url, option)
+            //     .then(data=> {
+            //         return data.arrayBuffer()
+            //     })
+            //     .then(data=> {
+            //         cb(data);
+            //     });
         }
     }, {
         key: 'getUrlFromMSE',

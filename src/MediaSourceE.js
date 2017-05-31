@@ -17,7 +17,6 @@ export default class MediaSourceE {
         this.manifest.videoDom.src = this.getUrlFromMSE();
         this.tID = null;
         this.addVideoEvent();
-        console.log(this);
     }
 
     static isSupportDash() {
@@ -44,9 +43,8 @@ export default class MediaSourceE {
 
     onSourceOpen() {
         this.sourceBuffer = this.mediasource.addSourceBuffer(this.manifest.VideoMimeType);
-        this.loadInitialData().then(()=> {
-            this.loadSIDXData();
-        });
+        this.loadInitialData(this.loadSIDXData);
+
     }
 
     onUpdateEnd() {
@@ -59,14 +57,12 @@ export default class MediaSourceE {
     }
 
     onUpdate() {
-        // console.log('sb-update')
     }
 
     onUpdateStart() {
-        // console.log('sb-updateStart')
     }
 
-    loadInitialData() {
+    loadInitialData(callBack) {
         let url = this.manifest.SegmentUrl;
         let option = {
             method: 'GET',
@@ -76,6 +72,7 @@ export default class MediaSourceE {
         };
         let cb = data => {
             this.sourceBuffer.appendBuffer(new Uint8Array(data));
+            callBack.call(this);
         };
         return this.fetchData(url, option, cb);
     }
@@ -117,14 +114,14 @@ export default class MediaSourceE {
 
     loadNextSegmentData(index) {
         let loadIndex = index;
-        if(loadIndex>=this.bufferController.VideoBox.reference_count) return;
+        if (loadIndex >= this.bufferController.VideoBox.reference_count) return;
         if (this.bufferController.LoadingSegment) {
             return;
         }
         if (this.bufferCache.IsBufferedSegmentIndex(loadIndex)) {
-            this.loadSegmentDataFromCache(loadIndex,'next');
+            this.loadSegmentDataFromCache(loadIndex, 'next');
         } else {
-            this.loadSegmentDataFromNet(loadIndex,'next');
+            this.loadSegmentDataFromNet(loadIndex, 'next');
         }
     }
 
@@ -132,7 +129,7 @@ export default class MediaSourceE {
         let currentIndex = this.bufferController.CurrentSegmentIndex;
         let lastLoadedIndex = this.bufferController.LastLoadedSegmentIndex;
         let preLoadNumber = this.bufferController.PreSegmentNumber;
-        return (lastLoadedIndex - currentIndex < preLoadNumber&&lastLoadedIndex>=currentIndex);
+        return (lastLoadedIndex - currentIndex < preLoadNumber && lastLoadedIndex >= currentIndex);
     }
 
     loadSegmentDataFromCache(index) {
@@ -187,13 +184,26 @@ export default class MediaSourceE {
     }
 
     fetchData(url, option, cb) {
-        return fetch(url, option)
-            .then(data=> {
-                return data.arrayBuffer()
-            })
-            .then(data=> {
-                cb(data);
-            });
+        let xhr = new XMLHttpRequest();
+        xhr.onload = e => {
+            let el = e.target|| e.srcElement;
+            cb(el.response);
+        };
+        xhr.onerror = e => {
+            console.log(e);
+        };
+        xhr.open(option.method,url);
+        xhr.responseType = "arraybuffer";
+        xhr.setRequestHeader("Range",option.headers.Range);
+        xhr.send();
+        // 由于ie11不支持fetch和promise特性 所以弃用 fetch 和 promise
+        // return fetch(url, option)
+        //     .then(data=> {
+        //         return data.arrayBuffer()
+        //     })
+        //     .then(data=> {
+        //         cb(data);
+        //     });
     }
 
     getUrlFromMSE() {
