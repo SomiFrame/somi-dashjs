@@ -54,13 +54,13 @@ Second
 ```
     npm install
 ```
-* start a node server and listen the port 3031
-```
-    node server.js
-```
 * compile the source file to public directory
 ```
     gulp
+```
+* start a node server and listen the port 3031
+```
+    node server.js
 ```
 Third
 ---------------
