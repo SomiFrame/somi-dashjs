@@ -23,7 +23,7 @@ Usage
     // this is es6 version
 
     import dash from "somi-dashjs";
-    var segmentUrl = '/video/new_video_dashinit.mp4';
+    let segmentUrl = '/video/new_video_dashinit.mp4';
     let videoMimeTypeCodecs = 'video/mp4;codecs="avc1.640015,mp4a.40.2"';
     let initRange = { start: 0, end: 1440 };
     let sidxRange = { start: 1441, end: 1580 };
