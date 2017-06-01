@@ -1616,7 +1616,13 @@ var _MediaSourceE2 = _interopRequireDefault(_MediaSourceE);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var mse = new _MediaSourceE2.default('#vid1', '/dashStream', 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"', { start: 0, end: 1436 }, { start: 1437, end: 1900 });
+// var mse = new  MSE('#vid1', '/dashStream',
+//     'video/mp4;codecs="avc1.4D401F,mp4a.40.2"',
+//     {start: 0, end: 1436},
+//     {start: 1437, end: 1900}
+// );
+
+var mse = new _MediaSourceE2.default('#vid1', '/video/new_video_dashinit.mp4', 'video/mp4;codecs="avc1.640015,mp4a.40.2"', { start: 0, end: 1440 }, { start: 1441, end: 1580 });
 console.log(mse);
 
 },{"../src/MediaSourceE":5}]},{},[6]);
