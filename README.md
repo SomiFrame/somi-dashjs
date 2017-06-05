@@ -46,7 +46,7 @@ Usage
     // this is es5 version
 
     var dash = require("somi-dashjs").default;
-    var segmentUrl = 'VivaLaVida_dashinit.mp4';
+    var segmentUrl = '/video/VivaLaVida_dashinit.mp4';
     var videoMimeTypeCodecs = 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"';
     var initRange = {start: 0, end: 1436};
     var sidxRange = {start: 1437, end: 1900};
@@ -55,7 +55,7 @@ Usage
     // this is es6 version
 
     import dash from "somi-dashjs";
-    let segmentUrl = 'VivaLaVida_dashinit.mp4';
+    let segmentUrl = '/video/VivaLaVida_dashinit.mp4';
     let videoMimeTypeCodecs = 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"';
     let initRange = {start: 0, end: 1436};
     let sidxRange = {start: 1437, end: 1900};
