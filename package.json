@@ -1,11 +1,15 @@
 {
   "name": "somi-dashjs",
-  "version": "3.0.6",
+  "version": "3.0.8",
   "description": "a simple one track and onDemand video dash player",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel ./src --presets babel-preset-es2015 --out-dir ./dist/",
     "prepublish": "npm run build"
+  },
+  "bugs": {
+    "url": "https://github.com/SomiFrame/somi-dashjs/issues",
+    "email": "yj.somi@gmail.com"
   },
   "keywords": [
     "[dash",
@@ -30,6 +34,10 @@
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "repository":{
+    "type": "git",
+    "url": "https://github.com/SomiFrame/somi-dashjs"
   },
   "engines": {
     "node": ">=5.0.0"

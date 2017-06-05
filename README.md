@@ -1,12 +1,17 @@
-Synopsis
+Somi-dashjs
 ================
 A small library that Video tag use MediaSource Extension to Load video stream.
+>__online demo__ [https://somiframe.github.io/vue-video/](https://somiframe.github.io/vue-video/)
 
 Installation
 ================
 ```
     npm install somi-dashjs
 ```
+
+How to create a onDemand dash video?
+===============
+> __Please go to see this__[Dash Support in MP4Box](https://gpac.wp.imt.fr/mp4box/dash/)
 
 Usage
 ================
