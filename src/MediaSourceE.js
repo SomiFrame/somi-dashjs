@@ -2,7 +2,7 @@ import ISOBoxer from 'codem-isoboxer'
 import BufferController from './BufferController'
 import BufferCache from './BufferCache'
 import ManiFest from './Manifest'
-export default class MediaSourceE {
+class MediaSourceE {
     constructor(selectorString, url, mimeType, initRange, indexRange) {
         if (!MediaSourceE.isSupportDash()) {
             throw  new Error('Oops! your browser does not support MediaSource extension');
@@ -214,3 +214,4 @@ export default class MediaSourceE {
         return window.URL.createObjectURL(this.mediasource);
     }
 }
+module.exports=MediaSourceE

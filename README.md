@@ -45,7 +45,7 @@ Usage
 ```javascript
     // this is es5 version
 
-    var dash = require("somi-dashjs").default;
+    var dash = require("somi-dashjs");
     var segmentUrl = '/video/VivaLaVida_dashinit.mp4';
     var videoMimeTypeCodecs = 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"';
     var initRange = {start: 0, end: 1436};

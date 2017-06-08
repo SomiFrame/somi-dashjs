@@ -1202,7 +1202,7 @@ var BufferCache = function () {
         }
 
         /**
-         * 检测该号码的分片
+         * 检测该号码的分片是否已缓存
          * @param index
          * @returns {*}
          * @constructor
@@ -1352,10 +1352,6 @@ exports.default = Manifest;
 
 },{}],5:[function(require,module,exports){
 'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1618,7 +1614,7 @@ var MediaSourceE = function () {
     return MediaSourceE;
 }();
 
-exports.default = MediaSourceE;
+module.exports = MediaSourceE;
 
 },{"./BufferCache":2,"./BufferController":3,"./Manifest":4,"codem-isoboxer":1}],6:[function(require,module,exports){
 'use strict';
@@ -1629,13 +1625,9 @@ var _MediaSourceE2 = _interopRequireDefault(_MediaSourceE);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// var mse = new  MSE('#vid1', 'http://163.172.38.115:8090/VivaLaVida_dashinit.mp4',
-//     'video/mp4;codecs="avc1.4D401F,mp4a.40.2"',
-//     {start: 0, end: 1436},
-//     {start: 1437, end: 1900}
-//
-// );
-var mse = new _MediaSourceE2.default('#vid1', 'http://10.72.2.66:9091/key-MjAxNy0wNi0xNC0xOC0xMjoyMDE3LTA2LTA2OjBXdnhyRVJ1a1FNakp2V2ZaRm03X0hEX2Rhc2hpbml0Lm1wNDpudWxsOmRBUmRjU1ZJNTRiY2JLSkFlbnJvVzBjYWRvRzhPRno1', 'video/mp4;codecs="avc1.64001E,mp4a.40.2"', { start: 0, end: 1435 }, { start: 1436, end: 1851 });
+console.log('es6', _MediaSourceE2.default); // var MSE = require("../dist/MediaSourceE")
+
+var mse = new _MediaSourceE2.default('#vid1', '/video/VivaLaVida_dashinit.mp4', 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"', { start: 0, end: 1436 }, { start: 1437, end: 1900 });
 console.log(mse);
 
 },{"../src/MediaSourceE":5}]},{},[6]);
