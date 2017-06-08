@@ -49,9 +49,10 @@ class MediaSourceE {
 
     onUpdateEnd() {
         if (!this.sourceBuffer.updating) {
-            if (this.bufferCache.temporaryBufferedSegments.length) {
-                let arrayBuffer = this.bufferCache.temporaryBufferedSegments.shift().segmentArrayBuffer;
-                this.sourceBuffer.appendBuffer(new Uint8Array(arrayBuffer));
+            let restArray = Object.keys(this.bufferCache.temporaryBufferedSegments);
+            if(restArray.length) {
+                this.sourceBuffer.appendBuffer(new Uint8Array(this.bufferCache.temporaryBufferedSegments[restArray[0]]));
+                delete this.bufferCache.temporaryBufferedSegments[restArray[0]];
             }
         }
     }
@@ -137,8 +138,8 @@ class MediaSourceE {
     }
 
     loadSegmentDataFromCache(index) {
-        let CacheSegment = this.bufferCache.getSegmentArrayBufferByIndex(index);
-        this.bufferCache.pushSegment(this.sourceBuffer, CacheSegment);
+        let segmentArrayBuffer = this.bufferCache.getSegmentArrayBufferByIndex(index);
+        this.bufferCache.pushSegment(this.sourceBuffer, {index,segmentArrayBuffer});
         this.bufferController.FirstSegmentLoaded = true;
         this.bufferController.LastLoadedSegmentIndex = index;
         this.bufferController.NextSegmentIndex = index + 1;
@@ -160,10 +161,7 @@ class MediaSourceE {
             }
         };
         let cb = data => {
-            this.bufferCache.pushSegment(this.sourceBuffer, {
-                index: loadIndex,
-                segmentArrayBuffer: data
-            });
+            this.bufferCache.pushSegment(this.sourceBuffer, {index, segmentArrayBuffer:data});
             this.bufferController.LastLoadedSegmentIndex = loadIndex;
             this.bufferController.NextSegmentIndex = loadIndex + 1;
             this.bufferController.LoadingSegment = false;

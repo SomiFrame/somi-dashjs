@@ -3,31 +3,24 @@
  */
 export default class BufferCache {
     constructor() {
-        this.BufferedSegments = [];
-        this.temporaryBufferedSegments = [];
+        this.BufferedSegments = {};
+        this.temporaryBufferedSegments = {};
         this.InitArrayBuffer = new ArrayBuffer();
         this.VideoSIDX = {};
     }
 
     getSegmentArrayBufferByIndex(index) {
-        for (let i = 0, l = this.BufferedSegments.length; i < l; i++) {
-            if (this.BufferedSegments[i].index == index) {
-                return this.BufferedSegments[i];
-            }
-        }
+        return this.BufferedSegments[index];
     }
 
     pushSegment(sourceBuffer, Segment) {
-        if(!this.IsBufferedSegmentIndex(Segment.index)){
-            this.BufferedSegments.push(Segment);
-        }
+        this.BufferedSegments[Segment.index] = Segment.segmentArrayBuffer;
         if (!sourceBuffer.updating) {
             sourceBuffer.appendBuffer(new Uint8Array(Segment.segmentArrayBuffer));
         } else {
-            this.temporaryBufferedSegments.push(Segment);
+            this.temporaryBufferedSegments[Segment.index] = Segment.segmentArrayBuffer;
         }
     }
-
     /**
      * 检测该号码的分片是否已缓存
      * @param index
@@ -35,15 +28,6 @@ export default class BufferCache {
      * @constructor
      */
     IsBufferedSegmentIndex(index) {
-        let result = null;
-        for (let i = 0, l = this.BufferedSegments.length; i < l; i++) {
-            if (this.BufferedSegments[i].index == index) {
-                result = (this.BufferedSegments[i].index == index);
-                break;
-            } else {
-                result = false;
-            }
-        }
-        return result;
+        return this.BufferedSegments.hasOwnProperty(index);
     }
 }

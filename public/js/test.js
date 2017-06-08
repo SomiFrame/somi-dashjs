@@ -1173,8 +1173,8 @@ var BufferCache = function () {
     function BufferCache() {
         _classCallCheck(this, BufferCache);
 
-        this.BufferedSegments = [];
-        this.temporaryBufferedSegments = [];
+        this.BufferedSegments = {};
+        this.temporaryBufferedSegments = {};
         this.InitArrayBuffer = new ArrayBuffer();
         this.VideoSIDX = {};
     }
@@ -1182,25 +1182,18 @@ var BufferCache = function () {
     _createClass(BufferCache, [{
         key: "getSegmentArrayBufferByIndex",
         value: function getSegmentArrayBufferByIndex(index) {
-            for (var i = 0, l = this.BufferedSegments.length; i < l; i++) {
-                if (this.BufferedSegments[i].index == index) {
-                    return this.BufferedSegments[i];
-                }
-            }
+            return this.BufferedSegments[index];
         }
     }, {
         key: "pushSegment",
         value: function pushSegment(sourceBuffer, Segment) {
-            if (!this.IsBufferedSegmentIndex(Segment.index)) {
-                this.BufferedSegments.push(Segment);
-            }
+            this.BufferedSegments[Segment.index] = Segment.segmentArrayBuffer;
             if (!sourceBuffer.updating) {
                 sourceBuffer.appendBuffer(new Uint8Array(Segment.segmentArrayBuffer));
             } else {
-                this.temporaryBufferedSegments.push(Segment);
+                this.temporaryBufferedSegments[Segment.index] = Segment.segmentArrayBuffer;
             }
         }
-
         /**
          * 检测该号码的分片是否已缓存
          * @param index
@@ -1211,16 +1204,7 @@ var BufferCache = function () {
     }, {
         key: "IsBufferedSegmentIndex",
         value: function IsBufferedSegmentIndex(index) {
-            var result = null;
-            for (var i = 0, l = this.BufferedSegments.length; i < l; i++) {
-                if (this.BufferedSegments[i].index == index) {
-                    result = this.BufferedSegments[i].index == index;
-                    break;
-                } else {
-                    result = false;
-                }
-            }
-            return result;
+            return this.BufferedSegments.hasOwnProperty(index);
         }
     }]);
 
@@ -1423,9 +1407,10 @@ var MediaSourceE = function () {
         key: 'onUpdateEnd',
         value: function onUpdateEnd() {
             if (!this.sourceBuffer.updating) {
-                if (this.bufferCache.temporaryBufferedSegments.length) {
-                    var arrayBuffer = this.bufferCache.temporaryBufferedSegments.shift().segmentArrayBuffer;
-                    this.sourceBuffer.appendBuffer(new Uint8Array(arrayBuffer));
+                var restArray = Object.keys(this.bufferCache.temporaryBufferedSegments);
+                if (restArray.length) {
+                    this.sourceBuffer.appendBuffer(new Uint8Array(this.bufferCache.temporaryBufferedSegments[restArray[0]]));
+                    delete this.bufferCache.temporaryBufferedSegments[restArray[0]];
                 }
             }
         }
@@ -1522,8 +1507,8 @@ var MediaSourceE = function () {
     }, {
         key: 'loadSegmentDataFromCache',
         value: function loadSegmentDataFromCache(index) {
-            var CacheSegment = this.bufferCache.getSegmentArrayBufferByIndex(index);
-            this.bufferCache.pushSegment(this.sourceBuffer, CacheSegment);
+            var segmentArrayBuffer = this.bufferCache.getSegmentArrayBufferByIndex(index);
+            this.bufferCache.pushSegment(this.sourceBuffer, { index: index, segmentArrayBuffer: segmentArrayBuffer });
             this.bufferController.FirstSegmentLoaded = true;
             this.bufferController.LastLoadedSegmentIndex = index;
             this.bufferController.NextSegmentIndex = index + 1;
@@ -1548,10 +1533,7 @@ var MediaSourceE = function () {
                 }
             };
             var cb = function cb(data) {
-                _this3.bufferCache.pushSegment(_this3.sourceBuffer, {
-                    index: loadIndex,
-                    segmentArrayBuffer: data
-                });
+                _this3.bufferCache.pushSegment(_this3.sourceBuffer, { index: index, segmentArrayBuffer: data });
                 _this3.bufferController.LastLoadedSegmentIndex = loadIndex;
                 _this3.bufferController.NextSegmentIndex = loadIndex + 1;
                 _this3.bufferController.LoadingSegment = false;
@@ -1627,7 +1609,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 console.log('es6', _MediaSourceE2.default); // var MSE = require("../dist/MediaSourceE")
 
-var mse = new _MediaSourceE2.default('#vid1', '/video/VivaLaVida_dashinit.mp4', 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"', { start: 0, end: 1436 }, { start: 1437, end: 1900 });
+window.mse = new _MediaSourceE2.default('#vid1', '/video/VivaLaVida_dashinit.mp4', 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"', { start: 0, end: 1436 }, { start: 1437, end: 1900 });
 console.log(mse);
 
 },{"../src/MediaSourceE":5}]},{},[6]);

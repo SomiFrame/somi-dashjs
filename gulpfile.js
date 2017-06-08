@@ -20,7 +20,7 @@ gulp.task('js', function (cb) {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./test/*.js', ['js']);
+    gulp.watch(['./test/*.js','./src/*.js'], ['js']);
 });
 
 gulp.task('default', ['js']);
