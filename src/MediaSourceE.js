@@ -15,6 +15,7 @@ class MediaSourceE {
         this.sourceBuffer = null;
         this.ISOFile = null;
         this.manifest.videoDom.src = this.getUrlFromMSE();
+        this.version = '3.1.12';
         this.tID = null;
         this.addVideoEvent();
     }
