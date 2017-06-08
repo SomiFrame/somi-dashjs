@@ -1200,6 +1200,14 @@ var BufferCache = function () {
                 this.temporaryBufferedSegments.push(Segment);
             }
         }
+
+        /**
+         * 检测该号码的分片
+         * @param index
+         * @returns {*}
+         * @constructor
+         */
+
     }, {
         key: "IsBufferedSegmentIndex",
         value: function IsBufferedSegmentIndex(index) {
@@ -1432,6 +1440,11 @@ var MediaSourceE = function () {
         key: 'onUpdateStart',
         value: function onUpdateStart() {}
     }, {
+        key: 'changeSegmentUrl',
+        value: function changeSegmentUrl(url) {
+            this.manifest.SegmentUrl = url;
+        }
+    }, {
         key: 'loadInitialData',
         value: function loadInitialData(callBack) {
             var _this = this;
@@ -1616,12 +1629,13 @@ var _MediaSourceE2 = _interopRequireDefault(_MediaSourceE);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var mse = new _MediaSourceE2.default('#vid1', 'http://163.172.38.115:3031/dashStream', 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"', { start: 0, end: 1436 }, { start: 1437, end: 1900 });
-// var mse = new  MSE('#vid1', '/video/new_video_dashinit.mp4',
-//     'video/mp4;codecs="avc1.640015,mp4a.40.2"',
-//     {start: 0, end: 1440},
-//     {start: 1441, end: 1580}
+// var mse = new  MSE('#vid1', 'http://163.172.38.115:8090/VivaLaVida_dashinit.mp4',
+//     'video/mp4;codecs="avc1.4D401F,mp4a.40.2"',
+//     {start: 0, end: 1436},
+//     {start: 1437, end: 1900}
+//
 // );
+var mse = new _MediaSourceE2.default('#vid1', 'http://10.72.2.66:9091/key-MjAxNy0wNi0xNC0xOC0xMjoyMDE3LTA2LTA2OjBXdnhyRVJ1a1FNakp2V2ZaRm03X0hEX2Rhc2hpbml0Lm1wNDpudWxsOmRBUmRjU1ZJNTRiY2JLSkFlbnJvVzBjYWRvRzhPRno1', 'video/mp4;codecs="avc1.64001E,mp4a.40.2"', { start: 0, end: 1435 }, { start: 1436, end: 1851 });
 console.log(mse);
 
 },{"../src/MediaSourceE":5}]},{},[6]);

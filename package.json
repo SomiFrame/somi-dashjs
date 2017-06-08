@@ -1,6 +1,6 @@
 {
   "name": "somi-dashjs",
-  "version": "3.0.8",
+  "version": "3.0.11",
   "description": "a simple one track and onDemand video dash player",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,13 +12,11 @@
     "email": "yj.somi@gmail.com"
   },
   "keywords": [
-    "[dash",
-    "mediasource",
-    "extension",
+    "dash",
+    "mediasource extension",
     "MP4Box",
     "onDemand",
-    "single",
-    "track]"
+    "single track"
   ],
   "author": "somi-frame",
   "license": "ISC",

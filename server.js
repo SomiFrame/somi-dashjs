@@ -38,6 +38,7 @@ app.route('/dashStream')
             console.log('end');
             res.send(buffer);
         })
+        console.log("output",buffer.toString());
     });
 app.route('/')
     .get(function (req, res, next) {

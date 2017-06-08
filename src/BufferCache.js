@@ -28,6 +28,12 @@ export default class BufferCache {
         }
     }
 
+    /**
+     * 检测该号码的分片是否已缓存
+     * @param index
+     * @returns {*}
+     * @constructor
+     */
     IsBufferedSegmentIndex(index) {
         let result = null;
         for (let i = 0, l = this.BufferedSegments.length; i < l; i++) {

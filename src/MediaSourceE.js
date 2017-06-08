@@ -62,6 +62,10 @@ export default class MediaSourceE {
     onUpdateStart() {
     }
 
+    changeSegmentUrl(url) {
+        this.manifest.SegmentUrl = url;
+    }
+
     loadInitialData(callBack) {
         let url = this.manifest.SegmentUrl;
         let option = {
