@@ -1,38 +1,39 @@
 Somi-dashjs
 ================
-A small library that Video tag use MediaSource Extension to Load video stream.
+Somi-dashjs 是一个非常轻量的js包,起作用是通过使用MediaSource扩展实现视频流的碎片化下载,然后把得到的视频碎片流喂video元素来进行播放.
 
->__[中文文档](https://github.com/SomiFrame/somi-dashjs/blob/master/README-zhCN.md)__
+>__[English document](https://github.com/SomiFrame/somi-dashjs/blob/master/README.md)__
 
->__online demo__ [https://somiframe.github.io/vue-video/](https://somiframe.github.io/vue-video/)
+>__线上例子__ [https://somiframe.github.io/vue-video/](https://somiframe.github.io/vue-video/)
 
-About issue
+关于问题提交
 ================
-> __If you have some problem in using Somi-dashjs or create a dash video?__
+> __如果你在somi-dashjs使用上或者不知道如何创建dash视频?__
 
-> __Please comment on the git issue to let me know:)__
+> __请到issue区域提交问题让我知道:)__
 
-Installation
+安装
 ================
+目前已维护到npm包管理器上,可以执行一下命令就能下载到你的项目中
 ```shell
     npm install somi-dashjs
 ```
 
-How to create a onDemand dash video?
+如何创建一个dashify后的视频?
 ===============
-> __You need to install the [MP4Box](https://gpac.wp.imt.fr/2015/07/29/gpac-build-mp4box-only-all-platforms/)__
+> __首先你要先下载并安装 [MP4Box](https://gpac.wp.imt.fr/2015/07/29/gpac-build-mp4box-only-all-platforms/)__
 
-> __And here is the simple command line example like below__
+> __以下是一个简单的MP4Box的切割视频的命令例子(当然你得准备一个视频,下面的视频可以在下载git代码后的public/video文件夹里面找到)__
 ```shell
    MP4Box -dash 3000 -profile onDemand -out manifest.mpd VivaLaVida.mp4
 ```
-> __If you want to know more information about MP4Box Please go to see this__ [Dash Support in MP4Box](https://gpac.wp.imt.fr/mp4box/dash/)
+> __如果你想了解更多MP4Box的参数使用可以到__ [Dash Support in MP4Box](https://gpac.wp.imt.fr/mp4box/dash/)
 
-> __After you dashify you video you will get the manifest.mpd and dashvideo__
+> __当你执行完上述命令后 可以获得manifest.mpd 和 VivaLaVida_dashinit.mp4 文件__
 
-> __The dash video name maybe like VivaLaVida_dashinit.mp4__
+> __VivaLaVida_dashinit.mp4是dashify后的视频
 
-> __The manifest.mpd mpd file like below__
+> __下面是manifest.mpd文件的详细信息__
 ```xml
 <?xml version="1.0"?>
 <!-- MPD file Generated with GPAC version 0.6.2-DEV-rev1219-g4007cec-master  at 2017-05-18T04:06:16.663Z-->
@@ -57,11 +58,11 @@ How to create a onDemand dash video?
 </MPD>
 ```
 
-Usage
+使用方法
 ================
 ```javascript
     // this is es5 version
-    // cmd version need browserify
+    // cmd模式需要browserify编译后才能让浏览器识别
 
     var dash = require("somi-dashjs");
     var segmentUrl = '/video/VivaLaVida_dashinit.mp4';
@@ -71,7 +72,7 @@ Usage
     new dash('#vid1',segmentUrl,videoMimeTypeCodecs,initRange,sidxRange);
 
     // this is es6 version
-    // es6 version need babelify
+    // es6模式需要babelify编译之后才能让浏览器识别
 
     import dash from "somi-dashjs";
     let segmentUrl = '/video/VivaLaVida_dashinit.mp4';
@@ -81,40 +82,40 @@ Usage
     new dash('#vid1',segmentUrl,videoMimeTypeCodecs,initRange,sidxRange);
 ```
 
-Tests
+测试test文件夹的代码
 ================
-First
+首先
 ----------------
-* clone the code to your local environment
+* 克隆代码到你的本地环境
 
 ```
     git clone https://github.com/SomiFrame/somi-dashjs.git
 ```
-* or
+* 或者
 ```
     git clone git@github.com:SomiFrame/somi-dashjs.git
 ```
 
-Second
+第二
 ---------------
-* enter directory which you just cloned
+* 进入你刚刚下载的项目代码的根目录
 ```
     cd somi-dashjs
 ```
-* install the devDependencies
+* 安装运行所需要的js依赖包
 ```
     npm install
 ```
-* compile the source file to public directory
+* 编译src文件甲的源代码到public/js中(这里使用的是gulp自动化工具)
 ```
     gulp
 ```
-* start a node server and listen the port 3031
+* 开启node服务并监听3031端口
 ```
     node server.js
 ```
-Third
+第三
 ---------------
-* now you can open a browser and enter URL like below
+* 现在你可以打开浏览器并在地址输入栏输入如下地址就可以了
 
   __localhost:3031__

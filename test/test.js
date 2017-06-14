@@ -7,4 +7,18 @@ window.mse = new  MSE('#vid1', '/video/VivaLaVida_dashinit.mp4',
     {start: 1437, end: 1900}
 
 );
-console.log(mse);
+// console.log(mse);
+// var video = document.querySelector('#vid1');
+//
+// navigator.webkitGetUserMedia({
+//     video: true
+// }, success, error);
+//
+// function success(stream) {
+//     video.src = window.webkitURL.createObjectURL(stream);
+//     video.play();
+// }
+//
+// function error(err) {
+//     alert('video error: ' + err)
+// }
