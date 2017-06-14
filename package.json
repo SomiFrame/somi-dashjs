@@ -1,6 +1,6 @@
 {
   "name": "somi-dashjs",
-  "version": "3.1.12",
+  "version": "3.1.13",
   "description": "a simple one track and onDemand video dash player",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
