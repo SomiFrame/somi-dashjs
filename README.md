@@ -64,21 +64,27 @@ Usage
     // cmd version need browserify
 
     var dash = require("somi-dashjs");
-    var segmentUrl = '/video/VivaLaVida_dashinit.mp4';
-    var videoMimeTypeCodecs = 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"';
-    var initRange = {start: 0, end: 1436};
-    var sidxRange = {start: 1437, end: 1900};
-    new dash('#vid1',segmentUrl,videoMimeTypeCodecs,initRange,sidxRange);
+    if(dash.isSupportDash()){
+        var segmentUrl = '/video/VivaLaVida_dashinit.mp4';
+        var videoMimeTypeCodecs = 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"';
+        var initRange = {start: 0, end: 1436};
+        var sidxRange = {start: 1437, end: 1900};
+        new dash('#vid1',segmentUrl,videoMimeTypeCodecs,initRange,sidxRange);
+    }
+
 
     // this is es6 version
     // es6 version need babelify
 
     import dash from "somi-dashjs";
-    let segmentUrl = '/video/VivaLaVida_dashinit.mp4';
-    let videoMimeTypeCodecs = 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"';
-    let initRange = {start: 0, end: 1436};
-    let sidxRange = {start: 1437, end: 1900};
-    new dash('#vid1',segmentUrl,videoMimeTypeCodecs,initRange,sidxRange);
+    if(dash.isSupportDash()){
+        let segmentUrl = '/video/VivaLaVida_dashinit.mp4';
+        let videoMimeTypeCodecs = 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"';
+        let initRange = {start: 0, end: 1436};
+        let sidxRange = {start: 1437, end: 1900};
+        new dash('#vid1',segmentUrl,videoMimeTypeCodecs,initRange,sidxRange);
+     }
+
 ```
 
 Tests

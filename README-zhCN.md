@@ -65,21 +65,25 @@ Somi-dashjs 是一个非常轻量的js包,起作用是通过使用MediaSource扩
     // cmd模式需要browserify编译后才能让浏览器识别
 
     var dash = require("somi-dashjs");
-    var segmentUrl = '/video/VivaLaVida_dashinit.mp4';
-    var videoMimeTypeCodecs = 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"';
-    var initRange = {start: 0, end: 1436};
-    var sidxRange = {start: 1437, end: 1900};
-    new dash('#vid1',segmentUrl,videoMimeTypeCodecs,initRange,sidxRange);
+    if(dash.isSupportDash()){
+        var segmentUrl = '/video/VivaLaVida_dashinit.mp4';
+        var videoMimeTypeCodecs = 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"';
+        var initRange = {start: 0, end: 1436};
+        var sidxRange = {start: 1437, end: 1900};
+        new dash('#vid1',segmentUrl,videoMimeTypeCodecs,initRange,sidxRange);
+    }
 
     // this is es6 version
     // es6模式需要babelify编译之后才能让浏览器识别
 
     import dash from "somi-dashjs";
-    let segmentUrl = '/video/VivaLaVida_dashinit.mp4';
-    let videoMimeTypeCodecs = 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"';
-    let initRange = {start: 0, end: 1436};
-    let sidxRange = {start: 1437, end: 1900};
-    new dash('#vid1',segmentUrl,videoMimeTypeCodecs,initRange,sidxRange);
+    if(dash.isSupportDash()){
+        let segmentUrl = '/video/VivaLaVida_dashinit.mp4';
+        let videoMimeTypeCodecs = 'video/mp4;codecs="avc1.4D401F,mp4a.40.2"';
+        let initRange = {start: 0, end: 1436};
+        let sidxRange = {start: 1437, end: 1900};
+        new dash('#vid1',segmentUrl,videoMimeTypeCodecs,initRange,sidxRange);
+     }
 ```
 
 测试test文件夹的代码
