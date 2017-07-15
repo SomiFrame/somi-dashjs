@@ -23,7 +23,7 @@ export default class BufferController {
         let VcalculateTime, Vtimescale, SegmentIndex;
         Vtimescale = this.VideoBox.timescale;
         VcalculateTime = 0;
-        for (let i = 0; i < this.VideoBox.references.length; i++) {
+        for (let i = 0,length=this.VideoBox.references.length; i < length; i++) {
             VcalculateTime += this.VideoBox.references[i].subsegment_duration / Vtimescale;
             if (VcalculateTime >= time) {
                 SegmentIndex = i;

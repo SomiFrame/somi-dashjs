@@ -3,3 +3,4 @@ dist
 public/video
 .idea
 npm-debug.log
+public/js/test.js
